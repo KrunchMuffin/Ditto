@@ -24,8 +24,8 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-#define ROW_BOTTOM_BORDER		4
-#define ROW_LEFT_BORDER			3
+#define ROW_BOTTOM_BORDER		6
+#define ROW_LEFT_BORDER			6
 #define COLOR_SHADOW			RGB(245, 245, 245)
 #define DUMMY_COL_WIDTH			2
 
@@ -509,12 +509,25 @@ void CQListCtrl::OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult)
 		}
 
 		pDC->FillSolidRect(rcItem, crBkgnd);
+
+		// Draw subtle separator line at the bottom of each row
+		if (!(rItem.state & LVIS_SELECTED))
+		{
+			CRect separatorRect(rcItem);
+			separatorRect.top = separatorRect.bottom - 1;
+			// Blend separator color toward background for subtlety
+			int r = (GetRValue(crBkgnd) * 85 + GetRValue(CGetSetOptions::m_Theme.Border()) * 15) / 100;
+			int g = (GetGValue(crBkgnd) * 85 + GetGValue(CGetSetOptions::m_Theme.Border()) * 15) / 100;
+			int b = (GetBValue(crBkgnd) * 85 + GetBValue(CGetSetOptions::m_Theme.Border()) * 15) / 100;
+			pDC->FillSolidRect(separatorRect, RGB(r, g, b));
+		}
+
 		nOldBKMode = pDC->SetBkMode(TRANSPARENT);
 
 		CRect rcText = rcItem;
 		rcText.left += m_windowDpi->Scale(ROW_LEFT_BORDER);
-		rcText.top += m_windowDpi->Scale(1);
-		rcText.bottom -= m_windowDpi->Scale(1);
+		rcText.top += m_windowDpi->Scale(2);
+		rcText.bottom -= m_windowDpi->Scale(2);
 
 		if (m_showIfClipWasPasted &&
 			strSymbols.GetLength() > 0 &&
@@ -522,7 +535,9 @@ void CQListCtrl::OnCustomdrawList(NMHDR* pNMHDR, LRESULT* pResult)
 		{
 			CRect pastedRect(rcItem);
 			pastedRect.left++;
-			pastedRect.right = pastedRect.left + m_windowDpi->Scale(2);
+			pastedRect.right = pastedRect.left + m_windowDpi->Scale(3);
+			pastedRect.top += m_windowDpi->Scale(2);
+			pastedRect.bottom -= m_windowDpi->Scale(2);
 
 			pDC->FillSolidRect(pastedRect, CGetSetOptions::m_Theme.ClipPastedColor());
 		}
