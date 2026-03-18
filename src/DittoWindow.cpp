@@ -8,7 +8,7 @@ CDittoWindow::CDittoWindow(void)
 {
 	m_captionBorderWidth = m_dpi.Scale(25);
 
-	m_borderSize = 2;
+	m_borderSize = 1;
 	m_bMouseOverChevron = false;
 	m_bMouseDownOnChevron = false;
 	m_bMouseDownOnClose = false;
@@ -48,12 +48,12 @@ void CDittoWindow::DoCreate(CWnd *pWnd)
 	m_dpi.SetHwnd(pWnd->m_hWnd);
 	
 
-	m_VertFont.CreateFont(-m_dpi.Scale(19), 0, -900, 0, 400, FALSE, FALSE, 0, DEFAULT_CHARSET,
-							OUT_DEFAULT_PRECIS,	CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, 
+	m_VertFont.CreateFont(-m_dpi.Scale(19), 0, -900, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,
+							OUT_DEFAULT_PRECIS,	CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY,
 							DEFAULT_PITCH|FF_SWISS, _T("Segoe UI"));
 
-	m_HorFont.CreateFont(-m_dpi.Scale(19), 0, 0, 0, 500, FALSE, FALSE, 0, DEFAULT_CHARSET,
-						OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,DEFAULT_QUALITY,
+	m_HorFont.CreateFont(-m_dpi.Scale(19), 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,
+						OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,CLEARTYPE_QUALITY,
 						DEFAULT_PITCH|FF_SWISS, _T("Segoe UI"));
 
 	SetTitleTextHeight(pWnd);
@@ -250,7 +250,7 @@ void CDittoWindow::DoNcPaint(CWnd *pWnd)
 	// Draw the window border
 	CRect rcBorder(0, 0, lWidth, rcFrame.Height());
 
-	int border = m_dpi.Scale(2);
+	int border = m_dpi.Scale(1);
 	int widthHeight = m_dpi.Scale(16);
 
 	for (int x = 0; x < border; x++)
@@ -717,13 +717,13 @@ void CDittoWindow::SetCaptionOn(CWnd *pWnd, int nPos, bool bOnstartup, int capti
 	m_captionFontSize = captionFontSize;
 
 	m_VertFont.DeleteObject();
-	m_VertFont.CreateFont(-m_dpi.Scale(captionFontSize), 0, -900, 0, 400, FALSE, FALSE, 0, DEFAULT_CHARSET,
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
+	m_VertFont.CreateFont(-m_dpi.Scale(captionFontSize), 0, -900, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY,
 		DEFAULT_PITCH | FF_SWISS, _T("Segoe UI"));
 
 	m_HorFont.DeleteObject();
-	m_HorFont.CreateFont(-m_dpi.Scale(captionFontSize), 0, 0, 0, 500, FALSE, FALSE, 0, DEFAULT_CHARSET,
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
+	m_HorFont.CreateFont(-m_dpi.Scale(captionFontSize), 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY,
 		DEFAULT_PITCH | FF_SWISS, _T("Segoe UI"));
 
 	SetTitleTextHeight(pWnd);
@@ -885,17 +885,17 @@ void CDittoWindow::OnDpiChanged(CWnd *pParent, int dpi)
 	m_dpi.Update(dpi);
 
 	m_captionBorderWidth = m_dpi.Scale(25);
-	m_borderSize = m_dpi.Scale(2);
+	m_borderSize = m_dpi.Scale(1);
 
 	m_VertFont.DeleteObject();
 	m_HorFont.DeleteObject();
 
-	m_VertFont.CreateFont(-m_dpi.Scale(m_captionFontSize), 0, -900, 0, 400, FALSE, FALSE, 0, DEFAULT_CHARSET,
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
+	m_VertFont.CreateFont(-m_dpi.Scale(m_captionFontSize), 0, -900, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY,
 		DEFAULT_PITCH | FF_SWISS, _T("Segoe UI"));
 
-	m_HorFont.CreateFont(-m_dpi.Scale(m_captionFontSize), 0, 0, 0, 500, FALSE, FALSE, 0, DEFAULT_CHARSET,
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
+	m_HorFont.CreateFont(-m_dpi.Scale(m_captionFontSize), 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY,
 		DEFAULT_PITCH | FF_SWISS, _T("Segoe UI"));
 
 	m_closeButton.Reset();

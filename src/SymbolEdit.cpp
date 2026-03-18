@@ -19,7 +19,7 @@ IMPLEMENT_DYNAMIC(CSymbolEdit, CEdit)
 CSymbolEdit::CSymbolEdit() :
 	m_hSymbolIcon(NULL),
 	m_bInternalIcon(false),
-	m_colorPromptText(RGB(127, 127, 127)),
+	m_colorPromptText(RGB(150, 150, 150)),
 	m_centerTextDiff(0)
 {
 	m_fontPrompt.CreateFont(
@@ -28,15 +28,15 @@ CSymbolEdit::CSymbolEdit() :
 		0,                         // nEscapement
 		0,                         // nOrientation
 		FW_NORMAL,                 // nWeight
-		TRUE,                      // bItalic
+		FALSE,                     // bItalic
 		FALSE,                     // bUnderline
 		0,                         // cStrikeOut
 		DEFAULT_CHARSET,           // nCharSet
 		OUT_DEFAULT_PRECIS,        // nOutPrecision
 		CLIP_DEFAULT_PRECIS,       // nClipPrecision
-		DEFAULT_QUALITY,           // nQuality
+		CLEARTYPE_QUALITY,         // nQuality
 		DEFAULT_PITCH | FF_SWISS,  // nPitchAndFamily
-		_T("Calibri"));
+		_T("Segoe UI"));
 
 	m_mouseDownOnSearches = false;
 	m_mouseHoveringOverSearches = false;
@@ -451,7 +451,7 @@ void CSymbolEdit::RecalcLayout()
 	{
 		if (m_windowDpi != NULL)
 		{
-			SetMargins(m_windowDpi->Scale(4), m_windowDpi->Scale(34));
+			SetMargins(m_windowDpi->Scale(6), m_windowDpi->Scale(34));
 		}
 	}
 }
@@ -930,38 +930,28 @@ void CSymbolEdit::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp)
 
 void CSymbolEdit::OnNcPaint()
 {
-
 	CString text;
 	GetWindowText(text);
 
 	CWindowDC dc(this);
-	
+
 	CRect r;
 	this->GetWindowRect(r);
 	this->ScreenToClient(r);
 
-	CRect t(0, 0, r.Width(), m_centerTextDiff+ m_windowDpi->Scale(1));
+	CRect t(0, 0, r.Width(), m_centerTextDiff + m_windowDpi->Scale(1));
+	CRect b(0, r.Height() - m_centerTextDiff - m_windowDpi->Scale(1), r.Width(), r.Height());
 
-	CRect b(0, r.Height() - m_centerTextDiff- m_windowDpi->Scale(1), r.Width(), r.Height());
+	bool hasFocus = (this == GetFocus() || text.GetLength() > 0);
 
-	COLORREF c = CGetSetOptions::m_Theme.MainWindowBG();
+	COLORREF bgColor = hasFocus ? CGetSetOptions::m_Theme.SearchTextBoxFocusBG() : CGetSetOptions::m_Theme.MainWindowBG();
+	COLORREF borderColor = hasFocus ? CGetSetOptions::m_Theme.SearchTextBoxFocusBorder() : CGetSetOptions::m_Theme.Border();
 
-	if (this == GetFocus() || text.GetLength() > 0)
-	{		
-		dc.FillSolidRect(t, CGetSetOptions::m_Theme.SearchTextBoxFocusBG());
-		dc.FillSolidRect(b, CGetSetOptions::m_Theme.SearchTextBoxFocusBG());
+	dc.FillSolidRect(t, bgColor);
+	dc.FillSolidRect(b, bgColor);
 
-		c = CGetSetOptions::m_Theme.SearchTextBoxFocusBorder();
-	}
-	else
 	{
-		dc.FillSolidRect(t, CGetSetOptions::m_Theme.MainWindowBG());
-		dc.FillSolidRect(b, CGetSetOptions::m_Theme.MainWindowBG());
-	}	
-
-	//if ((text.GetLength() > 0 || this == GetFocus()) && m_windowDpi)
-	{
-		CWindowDC dc(this);
+		CWindowDC dc2(this);
 
 		CRect rcFrame;
 		this->GetWindowRect(rcFrame);
@@ -969,17 +959,23 @@ void CSymbolEdit::OnNcPaint()
 
 		CRect rcBorder(0, 0, rcFrame.Width(), rcFrame.Height());
 
+		// Draw 1px border around the control
 		int border = m_windowDpi->Scale(1);
-		CBrush borderBrush(c);
+		CBrush borderBrush(borderColor);
 
 		for (int x = 0; x < border; x++)
 		{
-			dc.FrameRect(rcBorder, &borderBrush);
+			dc2.FrameRect(rcBorder, &borderBrush);
 			rcBorder.DeflateRect(1, 1, 1, 1);
 		}
-	}
 
-	//OutputDebugString(_T("OnNCPaint \r\n"));
+		// Draw a thicker accent bottom border when focused for modern look
+		if (this == GetFocus())
+		{
+			CRect rcBottomAccent(0, rcFrame.Height() - m_windowDpi->Scale(2), rcFrame.Width(), rcFrame.Height());
+			dc2.FillSolidRect(rcBottomAccent, CGetSetOptions::m_Theme.SearchTextBoxFocusBorder());
+		}
+	}
 }
 
 void CSymbolEdit::OnTimer(UINT_PTR nIDEvent)

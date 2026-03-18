@@ -673,10 +673,10 @@ void CQPasteWnd::MoveControls()
 		m_stGroup.ShowWindow(SW_SHOW);
 		m_BackButton.ShowWindow(SW_SHOW);
 
-		m_BackButton.MoveWindow(m_DittoWindow.m_dpi.Scale(2), m_DittoWindow.m_dpi.Scale(2), m_DittoWindow.m_dpi.Scale(16), m_DittoWindow.m_dpi.Scale(16));
-		m_stGroup.MoveWindow(m_DittoWindow.m_dpi.Scale(24), m_DittoWindow.m_dpi.Scale(2), cx - m_DittoWindow.m_dpi.Scale(20), m_DittoWindow.m_dpi.Scale(16));
+		m_BackButton.MoveWindow(m_DittoWindow.m_dpi.Scale(4), m_DittoWindow.m_dpi.Scale(4), m_DittoWindow.m_dpi.Scale(16), m_DittoWindow.m_dpi.Scale(16));
+		m_stGroup.MoveWindow(m_DittoWindow.m_dpi.Scale(24), m_DittoWindow.m_dpi.Scale(3), cx - m_DittoWindow.m_dpi.Scale(24), m_DittoWindow.m_dpi.Scale(18));
 
-		topOfListBox = m_DittoWindow.m_dpi.Scale(20);
+		topOfListBox = m_DittoWindow.m_dpi.Scale(24);
 	}
 	else
 	{
@@ -684,7 +684,7 @@ void CQPasteWnd::MoveControls()
 		m_stGroup.ShowWindow(SW_HIDE);
 	}
 
-	int searchRowStart = 33;
+	int searchRowStart = 36;
 
 	/*if(CGetSetOptions::m_bShowPersistent)
 	{
@@ -760,11 +760,17 @@ void CQPasteWnd::MoveControls()
 			m_modernScrollBarHorz.Hide(false);
 		}
 	}
-	m_search.MoveWindow(m_DittoWindow.m_dpi.Scale(34), cy - m_DittoWindow.m_dpi.Scale(searchRowStart - 5), cx - m_DittoWindow.m_dpi.Scale(70), m_DittoWindow.m_dpi.Scale(25));
+	int searchBarHeight = m_DittoWindow.m_dpi.Scale(26);
+	int searchBarY = cy - m_DittoWindow.m_dpi.Scale(searchRowStart) + m_DittoWindow.m_dpi.Scale(5);
+	int buttonSize = m_DittoWindow.m_dpi.Scale(24);
+	int buttonY = cy - m_DittoWindow.m_dpi.Scale(30);
+	int margin = m_DittoWindow.m_dpi.Scale(4);
 
-	m_systemMenu.MoveWindow(cx - m_DittoWindow.m_dpi.Scale(30), cy - m_DittoWindow.m_dpi.Scale(28), m_DittoWindow.m_dpi.Scale(24), m_DittoWindow.m_dpi.Scale(24));
+	m_search.MoveWindow(m_DittoWindow.m_dpi.Scale(34), searchBarY, cx - m_DittoWindow.m_dpi.Scale(70), searchBarHeight);
 
-	m_ShowGroupsFolderBottom.MoveWindow(m_DittoWindow.m_dpi.Scale(4), cy - m_DittoWindow.m_dpi.Scale(28), m_DittoWindow.m_dpi.Scale(24), m_DittoWindow.m_dpi.Scale(24));
+	m_systemMenu.MoveWindow(cx - m_DittoWindow.m_dpi.Scale(30), buttonY, buttonSize, buttonSize);
+
+	m_ShowGroupsFolderBottom.MoveWindow(margin, buttonY, buttonSize, buttonSize);
 
 	/*if (CGetSetOptions::m_bShowPersistent &&
 		CGetSetOptions::m_bShowAlwaysOnTopWarning)

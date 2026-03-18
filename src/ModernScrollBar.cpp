@@ -18,10 +18,10 @@ CModernScrollBar::CModernScrollBar()
 	, m_trackColor(RGB(240, 240, 240))
 	, m_thumbColor(RGB(180, 180, 180))
 	, m_thumbHoverColor(RGB(140, 140, 140))
-	, m_scrollBarWidth(8)
-	, m_scrollBarHoverWidth(12)
-	, m_cornerRadius(4)
-	, m_minThumbSize(30)
+	, m_scrollBarWidth(6)
+	, m_scrollBarHoverWidth(10)
+	, m_cornerRadius(3)
+	, m_minThumbSize(24)
 	, m_isMouseOver(false)
 	, m_isDragging(false)
 	, m_dragStartPos(0)
@@ -116,10 +116,10 @@ void CModernScrollBar::UpdateScrollBar()
 	}
 
 	// The list control is clipped by a region to hide the native scrollbar.
-	// searchRowStart is 33 (the height reserved for search bar and options button).
-	int searchRowStart = 33;
+	// searchRowStart is 36 (the height reserved for search bar and options button).
+	int searchRowStart = 36;
 	if (m_pDPI)
-		searchRowStart = m_pDPI->Scale(33);
+		searchRowStart = m_pDPI->Scale(36);
 	
 	int visibleBottom = parentClientRect.bottom - searchRowStart;
 
@@ -296,8 +296,20 @@ void CModernScrollBar::OnPaint()
 	memBitmap.CreateCompatibleBitmap(&dc, clientRect.Width(), clientRect.Height());
 	CBitmap* pOldBitmap = memDC.SelectObject(&memBitmap);
 	
-	// Fill with track color (solid background)
-	memDC.FillSolidRect(&clientRect, m_trackColor);
+	// Fill with track color - semi-transparent feel when not hovered
+	if (m_isMouseOver || m_isDragging)
+	{
+		memDC.FillSolidRect(&clientRect, m_trackColor);
+	}
+	else
+	{
+		// Blend track with parent background for subtle overlay appearance
+		COLORREF blended = RGB(
+			(GetRValue(m_trackColor) * 70 + 255 * 30) / 100,
+			(GetGValue(m_trackColor) * 70 + 255 * 30) / 100,
+			(GetBValue(m_trackColor) * 70 + 255 * 30) / 100);
+		memDC.FillSolidRect(&clientRect, blended);
+	}
 	
 	// Get thumb rect
 	CRect thumbRect = GetThumbRect();

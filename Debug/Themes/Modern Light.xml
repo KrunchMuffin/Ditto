@@ -1,0 +1,52 @@
+<Ditto_Theme_File Version="4" Author="Ditto" Notes="Clean modern light theme inspired by Fluent Design">
+
+	<CaptionLeft>RGB(249, 249, 249)</CaptionLeft>
+	<CaptionRight>RGB(243, 243, 243)</CaptionRight>
+
+	<CaptionLeftTopMost>RGB(0, 120, 212)</CaptionLeftTopMost>
+	<CaptionRightTopMost>RGB(0, 120, 212)</CaptionRightTopMost>
+
+	<CaptionLeftNotConnected>RGB(249, 249, 249)</CaptionLeftNotConnected>
+	<CaptionRightNotConnected>RGB(255, 185, 0)</CaptionRightNotConnected>
+
+	<CaptionTextColor>RGB(96, 96, 96)</CaptionTextColor>
+
+	<ListBoxOddRowsBG>RGB(255, 255, 255)</ListBoxOddRowsBG>
+	<ListBoxEvenRowsBG>RGB(249, 249, 249)</ListBoxEvenRowsBG>
+
+	<ListBoxOddRowsText>RGB(32, 32, 32)</ListBoxOddRowsText>
+	<ListBoxEvenRowsText>RGB(32, 32, 32)</ListBoxEvenRowsText>
+
+	<ListBoxSelectedBG>RGB(0, 120, 212)</ListBoxSelectedBG>
+	<ListBoxSelectedNoFocusBG>RGB(230, 230, 230)</ListBoxSelectedNoFocusBG>
+
+	<ListBoxSelectedText>RGB(255, 255, 255)</ListBoxSelectedText>
+	<ListBoxSelectedNoFocusText>RGB(32, 32, 32)</ListBoxSelectedNoFocusText>
+
+	<ClipPastedColor>RGB(16, 124, 16)</ClipPastedColor>
+
+	<Border>RGB(220, 220, 220)</Border>
+	<BorderTopMost>RGB(0, 120, 212)</BorderTopMost>
+	<BorderNotConnected>RGB(220, 220, 220)</BorderNotConnected>
+
+	<GroupTreeBG>RGB(243, 243, 243)</GroupTreeBG>
+	<GroupTreeText>RGB(96, 96, 96)</GroupTreeText>
+
+	<CaptionSize>25</CaptionSize>
+	<CaptionFontSize>19</CaptionFontSize>
+
+	<DescriptionWindowBG>RGB(249, 249, 249)</DescriptionWindowBG>
+	<DescriptionWindowText>RGB(32, 32, 32)</DescriptionWindowText>
+
+	<MainWindowBG>RGB(243, 243, 243)</MainWindowBG>
+
+	<SearchTextBoxFocusBG>RGB(255, 255, 255)</SearchTextBoxFocusBG>
+	<SearchTextBoxFocusText>RGB(32, 32, 32)</SearchTextBoxFocusText>
+	<SearchTextBoxFocusBorder>RGB(0, 120, 212)</SearchTextBoxFocusBorder>
+	<SearchTextHighlight>RGB(0, 120, 212)</SearchTextHighlight>
+
+	<ScrollBarThumb>RGB(190, 190, 190)</ScrollBarThumb>
+	<ScrollBarThumbHover>RGB(120, 120, 120)</ScrollBarThumbHover>
+	<ScrollBarTrack>RGB(249, 249, 249)</ScrollBarTrack>
+
+</Ditto_Theme_File>
