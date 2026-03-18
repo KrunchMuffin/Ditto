@@ -136,11 +136,11 @@ void CAlphaBlend::SetTransparent(BOOL bTransparent)
 		ASSERT(m_hWnd && ::IsWindow(m_hWnd));
 
 		// make it transparent
-		long l = GetWindowLong(m_hWnd, GWL_EXSTYLE);
+		LONG_PTR l = GetWindowLongPtr(m_hWnd, GWL_EXSTYLE);
 		if(!(l & WS_EX_LAYERED))
 		{
 			l |= WS_EX_LAYERED;
-			SetWindowLong(m_hWnd, GWL_EXSTYLE, l);
+			SetWindowLongPtr(m_hWnd, GWL_EXSTYLE, l);
 		}
 
 		SetLayeredWindowAttributesEx(m_hWnd, 0, m_nOpacity, LWA_ALPHA);
@@ -153,11 +153,11 @@ void CAlphaBlend::SetTransparent(BOOL bTransparent)
 	}
 	else
 	{
-		long l = GetWindowLong(m_hWnd, GWL_EXSTYLE);
+		LONG_PTR l = GetWindowLongPtr(m_hWnd, GWL_EXSTYLE);
 		if(l & WS_EX_LAYERED)
 		{
 			l ^= WS_EX_LAYERED;
-			SetWindowLong(m_hWnd, GWL_EXSTYLE, l);
+			SetWindowLongPtr(m_hWnd, GWL_EXSTYLE, l);
 			CRect r;
 			::GetWindowRect(m_hWnd, r);
 			::InvalidateRect(m_hWnd, r, true);

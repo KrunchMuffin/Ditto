@@ -52,16 +52,21 @@ UINT  MTServerThread(LPVOID pParam)
 	if(theApp.m_sSocket == INVALID_SOCKET)
 	{
 		LogSendRecieveInfo("ERROR - theApp.m_sSocket = socket(AF_INET, SOCK_STREAM, 0);");
+		WSACleanup();
 		return 0;
 	}
 	if(bind(theApp.m_sSocket,(sockaddr*)&local,sizeof(local))!=0)
 	{
 		LogSendRecieveInfo("ERROR - if(bind(theApp.m_sSocket,(sockaddr*)&local,sizeof(local))!=0)");
+		closesocket(theApp.m_sSocket);
+		WSACleanup();
 		return 0;
 	}
 	if(listen(theApp.m_sSocket,10)!=0)
 	{
 		LogSendRecieveInfo("ERROR - if(listen(theApp.m_sSocket,10)!=0)");
+		closesocket(theApp.m_sSocket);
+		WSACleanup();
 		return 0;
 	}
 		
@@ -88,6 +93,9 @@ UINT  MTServerThread(LPVOID pParam)
 			delete pParams;
 		}
 	}	
+
+	closesocket(theApp.m_sSocket);
+	WSACleanup();
 
 	LogSendRecieveInfo("End of Server Thread");
 

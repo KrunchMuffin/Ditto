@@ -109,22 +109,26 @@ async function UpdateReleaseNotes(nightlyRelease) {
             }
         }
 
-        console.log(`Uplaoding release notes: ${releaseNotes}`);
+        console.log(`Uploading release notes: ${releaseNotes}`);
     
         let res = await axios(config);
     }        
 }
 
 
-async function Run() {	
-	
-    let nightlyRelease = await GetNightlyRelease();
+async function Run() {
+    try {
+        let nightlyRelease = await GetNightlyRelease();
 
-    await DeleteOldAssets(nightlyRelease);
+        await DeleteOldAssets(nightlyRelease);
 
-    await UploadFiles(nightlyRelease);
+        await UploadFiles(nightlyRelease);
 
-    await UpdateReleaseNotes(nightlyRelease);
+        await UpdateReleaseNotes(nightlyRelease);
+    } catch (error) {
+        console.error(`Error during release: ${error.message}`);
+        process.exit(1);
+    }
 }
 
 Run();

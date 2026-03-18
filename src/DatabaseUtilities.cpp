@@ -70,7 +70,7 @@ CString GetOLDDefaultDBName()
 
 CString GetDefaultDBName()
 {
-	CString csDefaultPath = _T("c:\\program files\\Ditto\\");
+	CString csDefaultPath;
 
 	//If portable then default to the running path
 	if (CGetSetOptions::GetIsPortableDitto())

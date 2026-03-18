@@ -76,8 +76,8 @@ BOOL CCopyProperties::OnInitDialog()
 	CDialog::OnInitDialog();
 
 	//remove the default icon in top left of window
-	int extendedStyle = GetWindowLong(m_hWnd, GWL_EXSTYLE);
-	SetWindowLong(m_hWnd, GWL_EXSTYLE, extendedStyle | WS_EX_DLGMODALFRAME);
+	LONG_PTR extendedStyle = GetWindowLongPtr(m_hWnd, GWL_EXSTYLE);
+	SetWindowLongPtr(m_hWnd, GWL_EXSTYLE, extendedStyle | WS_EX_DLGMODALFRAME);
 	SetWindowPos(NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
 
 	m_GroupCombo.FillCombo();
@@ -425,7 +425,7 @@ void CCopyProperties::LoadDataIntoCClip(CClip &Clip)
 
 	if(Clip.m_moveToGroupShortCut > 0)
 	{
-		theApp.m_db.execDMLEx(_T("UPDATE Main SET MoveToGroupShortCut = 0 where MoveToGroupShortCut = %d AND lID <> %d;"), Clip.m_shortCut, m_lCopyID);
+		theApp.m_db.execDMLEx(_T("UPDATE Main SET MoveToGroupShortCut = 0 where MoveToGroupShortCut = %d AND lID <> %d;"), Clip.m_moveToGroupShortCut, m_lCopyID);
 	}
 
 	m_description.GetWindowText(Clip.m_Desc);

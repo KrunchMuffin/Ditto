@@ -131,8 +131,9 @@ BOOL CClient::OpenConnection(const TCHAR* servername)
 	if(m_Connection == INVALID_SOCKET)
 	{
 		LogSendRecieveInfo("ERROR - socket(AF_INET,SOCK_STREAM,IPPROTO_TCP)");
-		
+
 		m_Connection = NULL;
+		WSACleanup();
 		return FALSE;
 	}
 
@@ -177,6 +178,7 @@ BOOL CClient::OpenConnection(const TCHAR* servername)
 
 		closesocket(m_Connection);
 		m_Connection = NULL;
+		WSACleanup();
 		return FALSE;
 	}
 
@@ -189,7 +191,8 @@ BOOL CClient::OpenConnection(const TCHAR* servername)
 		LogSendRecieveInfo(StrF(_T("ERROR if(connect(m_Connection,(struct sockaddr*)&server,sizeof(server))) why = %d"), nWhy));
 		closesocket(m_Connection);
 		m_Connection = NULL;
-		return FALSE;	
+		WSACleanup();
+		return FALSE;
 	}
 
 	return TRUE;
