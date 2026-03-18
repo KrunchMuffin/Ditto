@@ -61,8 +61,8 @@ BOOL CFriendPromptDlg::OnInitDialog()
 	m_brush.CreateSolidBrush(RGB(255, 255, 255)); // color white brush 
 
 	//remove the default icon in top left of window
-	int extendedStyle = GetWindowLong(m_hWnd, GWL_EXSTYLE);
-	SetWindowLong(m_hWnd, GWL_EXSTYLE, extendedStyle | WS_EX_DLGMODALFRAME);
+	LONG_PTR extendedStyle = GetWindowLongPtr(m_hWnd, GWL_EXSTYLE);
+	SetWindowLongPtr(m_hWnd, GWL_EXSTYLE, extendedStyle | WS_EX_DLGMODALFRAME);
 	SetWindowPos(NULL, 0, 0, 0, 0, SWP_NOMOVE |	SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
 
 	::CheckDlgButton(m_hWnd, IDC_CHECK_SAVE, BST_CHECKED);

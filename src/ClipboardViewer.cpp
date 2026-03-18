@@ -74,7 +74,7 @@ void CClipboardViewer::Connect()
 	if(IsVista())
 	{
 		HMODULE hUser32 = LoadLibrary(_T("USER32.dll"));
-		if (hUser32) 
+		if (hUser32)
 		{
 			typedef BOOL (__stdcall *AddClipFormatListener)( HWND hwnd );
 
@@ -83,8 +83,9 @@ void CClipboardViewer::Connect()
 			{
 				Log(_T("Connecting to clipboard with function AddClipboardFormatListener"));
 				useSetClipboardWnd = false;
-				addListener(m_hWnd);				
+				addListener(m_hWnd);
 			}
+			FreeLibrary(hUser32);
 		}
 	}
 	
@@ -118,7 +119,7 @@ void CClipboardViewer::Disconnect(bool bSendPing)
 	if(IsVista())
 	{
 		HMODULE hUser32 = LoadLibrary(_T("USER32.dll"));
-		if (hUser32) 
+		if (hUser32)
 		{
 			typedef BOOL (__stdcall *RemoveClipFormatListener)( HWND hwnd );
 
@@ -127,8 +128,9 @@ void CClipboardViewer::Disconnect(bool bSendPing)
 			{
 				Log(_T("Disconnecting from clipboard with function RemoveClipboardFormatListener"));
 				removeOldWay = false;
-				removeListener(m_hWnd);				
+				removeListener(m_hWnd);
 			}
+			FreeLibrary(hUser32);
 		}
 	}
 	

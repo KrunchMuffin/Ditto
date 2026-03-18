@@ -6,7 +6,7 @@
 // Copyright (C) 1997, 1998 Chris Maunder
 // All rights reserved. May not be sold for profit.
 //
-// Thanks to Pål K. Tønder for auto-size and window caption changes.
+// Thanks to Pï¿½l K. Tï¿½nder for auto-size and window caption changes.
 //
 // "GotoURL" function by Stuart Patterson
 // As seen in the August, 1997 Windows Developer's Journal.
@@ -133,7 +133,7 @@ void CHyperLink::PreSubclassWindow()
 {
     // We want to get mouse clicks via STN_CLICKED
     DWORD dwStyle = GetStyle();
-    ::SetWindowLong(GetSafeHwnd(), GWL_STYLE, dwStyle | SS_NOTIFY);
+    ::SetWindowLongPtr(GetSafeHwnd(), GWL_STYLE, dwStyle | SS_NOTIFY);
     
     // Set the URL as the window text
     if (m_strURL.IsEmpty())
@@ -282,7 +282,7 @@ BOOL CHyperLink::GetAutoSize() const
 // then the window is merely shrunk, but if it is centred or right
 // justified then the window will have to be moved as well.
 //
-// Suggested by Pål K. Tønder 
+// Suggested by Pï¿½l K. Tï¿½nder 
 
 void CHyperLink::PositionWindow()
 {
@@ -385,7 +385,7 @@ void CHyperLink::ReportError(int nError)
         case SE_ERR_DLLNOTFOUND:      str = "The specified dynamic-link library was not found."; break;
         case SE_ERR_NOASSOC:          str = "There is no application associated\nwith the given filename extension."; break;
         case SE_ERR_OOM:              str = "There was not enough memory to complete the operation."; break;
-        case SE_ERR_SHARE:            str = "A sharing violation occurred. ";
+        case SE_ERR_SHARE:            str = "A sharing violation occurred."; break;
         default:                      str.Format(_T("Unknown Error (%d) occurred."), nError); break;
     }
     str = "Unable to open hyperlink:\n\n" + str;
@@ -421,8 +421,7 @@ HINSTANCE CHyperLink::GotoURL(LPCTSTR url, int showcmd)
                 lstrcat(pos, _T(" "));
                 lstrcat(pos, url);
 				
-				CStringA keyA = CTextConvert::UnicodeToAnsi(key);
-                result = (HINSTANCE)WinExec(keyA, showcmd);
+                result = ShellExecute(NULL, _T("open"), key, NULL, NULL, showcmd);
             }
         }
     }
