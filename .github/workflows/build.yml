@@ -7,6 +7,9 @@ on:
     paths-ignore:
       - '**/*.md'
 
+permissions:
+  contents: write
+
 env:
   SOLUTION_FILE_PATH: CP_Main_10.sln
 
