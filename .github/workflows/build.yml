@@ -104,36 +104,6 @@ jobs:
             7z a DittoSetup\output\DittoDebug_${{env.VERSION_FILENAME}}.7z *.pdb -r
             7z a DittoSetup\output\DittoDebug_${{env.VERSION_FILENAME}}.7z *.map -r
             
-      - name: Choco - Ditto
-        run: |
-            (Get-Content 'DittoSetup\Chocolatey\ditto.nuspec' -Raw).Replace("%version%", "${{env.VERSION_DOT_FILENAME}}") | Out-File 'DittoSetup\Chocolatey\ditto.nuspec'
-            copy DittoSetup\Output\DittoSetup_${{env.VERSION_FILENAME}}.exe DittoSetup\Chocolatey\tools\DittoSetup_${{env.VERSION_FILENAME}}.exe
-            cd DittoSetup\Chocolatey
-            choco pack     
-            choco push --source https://push.chocolatey.org/ --key ${{ secrets.CHOCO_API_KEY}}
-            cd ..
-            cd ..
-            
-      - name: Choco - Ditto.Install
-        run: |
-            (Get-Content 'DittoSetup\Chocolatey.install\ditto.nuspec' -Raw).Replace("%version%", "${{env.VERSION_DOT_FILENAME}}") | Out-File 'DittoSetup\Chocolatey.install\ditto.nuspec'
-            copy DittoSetup\output\DittoSetup_${{env.VERSION_FILENAME}}.exe DittoSetup\Chocolatey.install\tools\DittoSetup_${{env.VERSION_FILENAME}}.exe
-            cd DittoSetup\Chocolatey.install
-            choco pack     
-            choco push --source https://push.chocolatey.org/ --key ${{ secrets.CHOCO_API_KEY}}
-            cd ..
-            cd ..
-    
-      - name: Choco - Ditto.Portable
-        run: |
-            (Get-Content 'DittoSetup\Chocolatey.portable\ditto.nuspec' -Raw).Replace("%version%", "${{env.VERSION_DOT_FILENAME}}") | Out-File 'DittoSetup\Chocolatey.portable\ditto.nuspec'
-            copy DittoSetup\output\DittoPortable_${{env.VERSION_FILENAME}}.zip DittoSetup\Chocolatey.portable\tools\DittoPortable_${{env.VERSION_FILENAME}}.zip
-            cd DittoSetup\Chocolatey.portable
-            choco pack     
-            choco push --source https://push.chocolatey.org/ --key ${{ secrets.CHOCO_API_KEY}}
-            cd ..
-            cd ..
-            
       - name: Build appx
         run: |
             7z x DittoSetup\output\DittoPortable_${{env.VERSION_FILENAME}}.zip -oDittoSetup\appx -r
