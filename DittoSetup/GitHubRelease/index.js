@@ -2,12 +2,14 @@ const axios = require('axios');
 const fs = require('fs/promises');
 const { env } = require('process');
 
+const REPO = env.GITHUB_REPOSITORY || 'sabrogden/Ditto';
+
 async function GetNightlyRelease() {
 
     const config = {
         method: 'get',
         headers: { 'X-GitHub-Api-Version': '2022-11-28',  'Authorization': `token ${env.token}`},
-        url: 'https://api.github.com/repos/sabrogden/Ditto/releases'
+        url: `https://api.github.com/repos/${REPO}/releases`
     }
 
     let res = await axios(config)
@@ -30,7 +32,7 @@ async function DeleteOldAssets(nightlyRelease) {
         const config = {
             method: 'DELETE',
             headers: { 'X-GitHub-Api-Version': '2022-11-28',  'Authorization': `token ${env.token}`},
-            url: `https://api.github.com/repos/sabrogden/Ditto/releases/assets/${asset.id}`                
+            url: `https://api.github.com/repos/${REPO}/releases/assets/${asset.id}`                
         }
         
         console.log(`Deleting file ${asset.name}, id: ${asset.id}`);
@@ -57,7 +59,7 @@ async function UploadFiles(nightlyRelease) {
                             'Content-Type': 'application/octet-stream',
                             'Content-Length': fileBytes.length
                         },
-                url: `https://uploads.github.com/repos/sabrogden/Ditto/releases/${nightlyRelease.id}/assets?name=${file}`,              
+                url: `https://uploads.github.com/repos/${REPO}/releases/${nightlyRelease.id}/assets?name=${file}`,              
                 data: fileBytes
             }
 
@@ -79,7 +81,7 @@ async function UpdateReleaseNotes(nightlyRelease) {
                         'X-GitHub-Api-Version': '2022-11-28',  
                         'Authorization': `token ${env.token}`
                         },
-            url: `https://api.github.com/repos/sabrogden/Ditto/releases/generate-notes`,
+            url: `https://api.github.com/repos/${REPO}/releases/generate-notes`,
             data: {                        
                     "tag_name": env.tag,
                     "previous_tag_name": env.previous_tag
@@ -103,7 +105,7 @@ async function UpdateReleaseNotes(nightlyRelease) {
                         'X-GitHub-Api-Version': '2022-11-28',  
                         'Authorization': `token ${env.token}`
                     },
-            url: `https://api.github.com/repos/sabrogden/Ditto/releases/${nightlyRelease.id}`,
+            url: `https://api.github.com/repos/${REPO}/releases/${nightlyRelease.id}`,
             data: {
                 "body": releaseNotes
             }
