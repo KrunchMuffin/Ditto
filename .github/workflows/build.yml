@@ -28,6 +28,11 @@ jobs:
             echo "VERSION_FILENAME=3_25_${env:BUILD_NUMBER}_0" | Out-File -FilePath $env:GITHUB_ENV -Append
             echo "VERSION_DOT_FILENAME=3.25.${env:BUILD_NUMBER}.0" | Out-File -FilePath $env:GITHUB_ENV -Append
             
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v2
 
@@ -51,4 +56,28 @@ jobs:
             Release64\Ditto.exe
             Release64\ICU_Loader.dll
             Release64\Addins\DittoUtil.dll
+
+      - name: Installer
+        uses: Minionguyjpro/Inno-Setup-Action@v1.2.7
+        with:
+          path: DittoSetup\DittoSetup_10.iss
+
+      - name: Build Portable
+        run: |
+            DittoSetup\BuildPortableZIP.bat "DittoPortable_${{env.VERSION_FILENAME}}" bit64
+            
+      - name: Zip Debug Files
+        run: |
+            7z a DittoSetup\output\DittoDebug_${{env.VERSION_FILENAME}}.7z *.pdb -r
+            7z a DittoSetup\output\DittoDebug_${{env.VERSION_FILENAME}}.7z *.map -r
+            
+      - name: Publish to GitHub
+        env:
+          token: ${{secrets.GITHUB_TOKEN}}
+          uploadPath: DittoSetup\output\
+          tag: ${{env.VERSION_FILENAME}}
+          previous_tag: 3.25.113.0
+        run: |
+             npm install ./DittoSetup/GitHubRelease
+             node ./DittoSetup/GitHubRelease/index.js
 
